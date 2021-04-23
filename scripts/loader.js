@@ -29,10 +29,22 @@ TowerDefense.loader = (function() {
         message: 'Render',
         onComplete: null
     }, {
-       scripts: ['screens/manager', 'screens/options', 'screens/credits',
-           'screens/leaderboard', 'screens/main-menu', 'screens/game-play'],
+        scripts: ['screens/manager'],
+        message: 'Manager',
+        onComplete: null
+    }, {
+       scripts: ['screens/options', 'screens/credits',
+           'screens/leaderboard'],
        message: 'Menus loaded',
        onComplete: null
+    }, {
+        scripts: ['screens/main-menu', 'screens/game-play'],
+        message: 'Game-play',
+        onComplete: null
+    }, {
+        scripts: ['screens/main-menu'],
+        message: 'main-menu',
+        onComplete: null
     }, {
         scripts: ['components/texture', 'components/position',
             'components/gridlike', 'components/keyboard-controllable',
@@ -50,7 +62,9 @@ TowerDefense.loader = (function() {
         message: 'Systems',
         onComplete: null
     }, {
-        scripts: ['models/entity', 'models/game-model']
+        scripts: ['models/entity', 'models/game-model'],
+        message: 'Models',
+        onComplete: null
     }];
 
     let assetOrder = [{

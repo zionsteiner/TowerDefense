@@ -99,9 +99,14 @@ TowerDefense.systems.Pathfinder = function(spec) {
                         reportExit(entity);
                         continue;
                     }
-
-                    pathbound.destCell = pathbound.currCell.next;
-                    pathbound.destCell.canPlace = false;
+                    
+                    if (pathbound.currCell.next !== null) {
+                        pathbound.destCell = pathbound.currCell.next;
+                        pathbound.destCell.canPlace = false;
+                    } else {
+                        reportEntity(entity);   // bug handler
+                        continue;
+                    }
                 }
             } else if (pathbound.type === 'air') {
                 pathbound.currCell.canPlace = true;
@@ -167,6 +172,7 @@ TowerDefense.systems.Pathfinder = function(spec) {
             // Bug handler
             if (pos.x < 0 || pos.x > TowerDefense.graphics.canvas.width || pos.y < 0 || pos.y > TowerDefense.graphics.canvas.height) {
                 reportExit(entity);
+                continue;
             }
 
             // Update healthbar pos

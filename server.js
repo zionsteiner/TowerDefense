@@ -20,7 +20,11 @@ let mimeTypes = {
     '.mp3' : 'audio/mpeg3',
     '.otf' : 'font/otf'
 };
-const port = 3000;
+
+let port = process.env.PORT;
+if (port == null || port == "") {
+    port = 8000;
+}
 
 function handleRequest(request, response) {
     console.log('request : ', request.url);

@@ -2,7 +2,7 @@ TowerDefense.models.Game = function() {
     'use strict';
 
     // ToDo: organize these
-    const INIT_MONEY = 5000;
+    const INIT_MONEY = 500;
     const INIT_LIVES = 30;
     const REFUND_RATE = 0.75;
 
@@ -278,7 +278,7 @@ TowerDefense.models.Game = function() {
             height: GRID_CELL_HEIGHT,
             speed: 5 * GRID_CELL_WIDTH / 1000,
             isAOE: true,
-            delay: 100,
+            delay: 400,
             AOERadius: 4 * GRID_CELL_WIDTH,
             isTargetTracking: false,
         },
