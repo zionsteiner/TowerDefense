@@ -1,0 +1,101 @@
+Creep shortest path algo
+-------------------------
+How to represent open area as maze? Creeps move continously, not in discrete
+steps.
+1. Divide area into grid (this would mean creeps could not go diagonally)
+    1. solve algo.
+    2. set creep dest as last path coord before turn.
+2. Solve algo for creep. Resolve algo on tower placement.
+
+Valid tower placement
+-------------------------
+* No tower zones on entrances (base set).
+* Precompute and cache valid tower zones each time a tower is placed or sold.
+* For each tower zone outside of no-tower-zones, compute shortest path algo
+from all entrances to respective exits. Zones that result in no solution paths
+are added to not allowed.
+
+Towers
+----------
+4 towers?
+
+Particles
+----------------
+* Should the ParticleSystem be abstracted to ECS or kept separate?
+* particle system, particle system renderer,
+* component is emitter spec (creep has emitter spec), bomb has emitter component
+
+Animation ECS
+----------------
+* Background, walls, towers, and creeps are all rendered in different ways. How to do this
+without having a different component for each of them? Is this possible?
+
+renderer knows how to handle sprites and towers (sprite sheet of 1). An appearance can specify
+multiple textures, each with different position? tower is two entities, base and turret.
+
+* What component for floating score? Different from other text like turret info and score info?
+
+Bullet/Bomb Collision
+--------------
+Naive check every against every, or quad tree?
+Bombs only collide after landing on their initial target, how to handle this?
+
+* bullets: collidable as soon as they are created (collidable: lifetime)
+* bomb: only collidable when explodes (explodable -> collidable: instantaneous),
+  timer component goes off, emits collidable entity.
+  active collidable flag on bomb
+
+system.update callbacks vs what is done in update?
+
+both collidable
+if exploded and creeps in radius: collide
+Need another component for exploded?
+
+Entities is SOA over AOS. Each component has entity ID. When systems need other components of same entity, they query
+on ID.
+
+This requires SO(A=maps). does this give same data-locality benefits? What if JS does something different under the hood
+to ruin this intention.
+
+Use structure of component arrays. Linear search on same entity-other-component-query is inefficient though.
+
+Solution: Entity map and SOA. This solves efficient iteration and lookup.
+On entity delete,
+
+Globals
+----------
+The arena board will need to be accessed by the path-finding system when it is working on creesp
+
+Steps
+--------------
+1. Arena
+2. Walls
+3. Towers
+4. Creeps
+5. Shooting
+
+Game can also be an entity. keyboardcontrollable
+
+Particles are entities described by emitter component.
+Creep emitter - on death
+blood in all directions
+
+Bomb emitter - on move, explosion
+Missile emitter - on move, explosion
+Move: starting from bottom of bomb/missile, direction opposite of emitter, like lunar lander
+
+Tower upgrade: dollar signs
+tower sell gold coin
+
+Requirements:
+multiple emitters per object. options: 1) multiple specs per emitter. 2) emitters are entities.
+How to time triggers? Each emitter is triggered on different stimulus
+All are one time emissions except bomb and missile followers.
+
+instead of addentity, emit
+
+Creep: add spec on death
+
+When to play and stop sound?
+Music must play always
+Bullets must play when shot. Sound on shooter or bullet? Bullet.

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tower Defense</title>
+    <script type="text/javascript"
+            src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+<!-- Menus -->
+<div id="game">
+    <div id="main-menu" class="screen">
+        <h1>Tower Defense</h1>
+        <ul class="menu">
+            <li><button id="play-game-screen-btn">Start Game</button></li>
+            <li><button id="leaderboard-screen-btn">Leaderboard</button></li>
+            <li><button id="options-screen-btn">Options</button></li>
+            <li><button id="credits-screen-btn">Credits</button></li>
+        </ul>
+    </div>
+    <div id="game-play" class="screen">
+        <canvas id="canvas" width="500" height="500"></canvas>
+        <!-- Handled differently than other menus -->
+        <!-- ToDo: make submenus managed by menu manager -->
+        <div id="pause-screen" class="screen">
+            <h1>Pause</h1>
+            <ul class="menu">
+                <li><button id="pause-main-menu">Main Menu</button></li>
+                <li><button id="resume-btn">Resume</button></li>
+            </ul>
+        </div>
+        <div id="leaderboard-input" class="screen">
+            <h2>Leaderboard Entry</h2>
+            <label for="nameInput">Name:</label>
+            <input id="nameInput" type="text">
+            <button id="submitNameEntryBtn">Submit</button>
+            <p id="nameValMsg" class="valMsg"></p>
+        </div>
+    </div>
+    <div id="leaderboard" class="screen">
+        <h1>Leaderboard</h1>
+        <div id="leaderboardHeader">
+            <p>Rank</p><p>Name</p><p>Score</p>
+        </div>
+        <div id="leaderboardList"></div>
+        <ul class="menu">
+            <li><button id="leaderboard-back" class="back-btn">Back</button></li>
+        </ul>
+    </div>
+    <div id="options" class="screen">
+        <h1>Options</h1>
+        <ul class='options'>
+            <li id="upgradeTowerControl">
+                <p class="controlName">Upgrade Tower</p>
+                <p class="controlKey"></p>
+                <button id="upgradeTowerBindBtn" class="controlBindBtn">Change</button>
+            </li>
+            <li id="sellTowerControl">
+                <p class="controlName">Sell Tower</p>
+                <p class="controlKey"></p>
+                <button id="sellTowerBtn" class="controlBindBtn">Change</button>
+            </li>
+            <li id="nextLevelControl">
+                <p class="controlName">Start Next Level</p>
+                <p class="controlKey"></p>
+                <button id="nextLevelBtn" class="controlBindBtn">Change</button>
+            </li>
+        </ul>
+        <ul class="menu">
+            <li><button id="options-back" class="back-btn">Back</button></li>
+        </ul>
+    </div>
+    <div id="credits" class="screen">
+        <h1>Credits</h1>
+        <ul>
+            <li><p class="credits-role">Lead&nbsp;Dev:</p><p class="credits-name">Zion&nbsp;Steiner</p></li>
+            <li><p class="credits-role">Producer:</p><p class="credits-name">Zion&nbsp;Steiner</p></li>
+            <li><p class="credits-rol">Art:</p><p class="credits-name">TBD</p></li>
+        </ul>
+        <ul class="menu">
+            <li><button id="credits-back" class="back-btn">Back</button></li>
+        </ul>
+    </div>
+</div>
+
+    <script
+        data-main="scripts/loader.js"
+        src="scripts/require.js">
+    </script>
+</body>
+</html>
