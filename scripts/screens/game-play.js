@@ -173,7 +173,7 @@ TowerDefense.screens['game-play'] = (function(graphics, screens) {
         gamePlayEntity.components.keyboardControllable.active = true;
         game.systems.keyboard.addEntity(gamePlayEntity);
 
-        showMsg('Press ' + nextLevelKey + ' to start level ' + Math.max(game.currLevel, 1));    // lol
+        showMsg('Press ' + nextLevelKey + ' to start level ' + (game.currLevel + 1));    // lol
 
         game.systems.render.addEntity(gamePlayEntity);
     }

@@ -31,8 +31,8 @@ TowerDefense.systems.ParticleSystem = function() {
             partComp.aliveDuration += elapsedTime;
 
 
-            pos.x += (elapsedTime / 1000 * partComp.speed * partComp.direction.x);
-            pos.y += (elapsedTime / 1000 * partComp.speed * partComp.direction.y);
+            pos.x += (elapsedTime * partComp.speed * partComp.direction.x);
+            pos.y += (elapsedTime * partComp.speed * partComp.direction.y);
 
             pos.rotation += partComp.speed * partComp.rotationToSpeed;
             pos.rotation %= 360;

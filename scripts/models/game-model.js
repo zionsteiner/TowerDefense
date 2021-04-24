@@ -17,10 +17,11 @@ TowerDefense.models.Game = function() {
     const GRID_CELL_WIDTH = CANVAS_WIDTH / ARENA_DIM;
     const GRID_CELL_HEIGHT = CANVAS_HEIGHT / ARENA_DIM;
 
-    const MAX_CREEP_SPAWN_DELTA = 2000;
+    const INIT_MAX_CREEP_SPAWN_DELTA = 2000;
 
     const WAVE1SETTINGS = {
         level: 1,
+        maxCreepSpawnDelta: INIT_MAX_CREEP_SPAWN_DELTA,
         creepSpecs: {
             goblinSpec: {
                 n: 2,
@@ -132,12 +133,13 @@ TowerDefense.models.Game = function() {
                     type: aimable.weaponType
                 }));
 
+                // ToDo: make particle effect match damage radius
                 if (aimable.weaponType === 'missile' || aimable.weaponType === 'bomb') {
                     projectile.addComponent(components.ParticleEmitter({
                         'explode': {
                             img: TowerDefense.assets['fire'],
                             size: {mean: 5, stddev: 1},
-                            speed: {mean: 15, stddev: 5},
+                            speed: {mean: 105 / 1000, stddev: 5 / 1000},
                             quantity: 100,
                             rotationToSpeed: 1 / 50,
                             lifetime: {mean: 750, stddev: 100},
@@ -146,7 +148,7 @@ TowerDefense.models.Game = function() {
                         'trail': {
                             img: TowerDefense.assets['fire'],
                             size: {mean: 5, stddev: 1},
-                            speed: {mean: 15, stddev: 5},
+                            speed: {mean: 15 / 1000, stddev: 5 / 1000},
                             quantity: 25,
                             rotationToSpeed: 1 / 50,
                             lifetime: {mean: 300, stddev: 100},
@@ -276,10 +278,10 @@ TowerDefense.models.Game = function() {
         'bomb': {
             width: GRID_CELL_WIDTH,
             height: GRID_CELL_HEIGHT,
-            speed: 5 * GRID_CELL_WIDTH / 1000,
+            speed: 8 * GRID_CELL_WIDTH / 1000,
             isAOE: true,
-            delay: 400,
-            AOERadius: 4 * GRID_CELL_WIDTH,
+            delay: 500,
+            AOERadius: 3 * GRID_CELL_WIDTH,
             isTargetTracking: false,
         },
         'missile': {
@@ -440,7 +442,7 @@ TowerDefense.models.Game = function() {
             totalCreeps += creepSpec.n;
             for (let i = 0; i < creepSpec.n; ++i) {
                 specArray.push(creepSpec.spec);
-                let spawnDelay = lastSpawnTime + Random.nextDouble() * MAX_CREEP_SPAWN_DELTA;
+                let spawnDelay = lastSpawnTime + Random.nextDouble() * currLevelSettings.maxCreepSpawnDelta;
                 spawnDelays.push(spawnDelay);
                 lastSpawnTime = spawnDelay;
             }
@@ -482,6 +484,8 @@ TowerDefense.models.Game = function() {
             newSettings.creepSpecs.batSpec.spec.health *= 1.10;
             newSettings.creepSpecs.batSpec.spec.health = Math.round(newSettings.creepSpecs.batSpec.spec.health);
         }
+
+        newSettings.maxCreepSpawnDelta = Math.max(500, newSettings.maxCreepSpawnDelta - 10 * newSettings.level);
 
         return newSettings;
     }
@@ -570,7 +574,7 @@ TowerDefense.models.Game = function() {
             'death': {
                 img: TowerDefense.assets['blood'],
                 size: {mean: 5, stddev: 1},
-                speed: {mean: 10, stddev: 5},
+                speed: {mean: 10 / 1000, stddev: 5 / 1000},
                 quantity: 100,
                 rotationToSpeed: 1 / 500,
                 lifetime: {mean: 300, stddev: 100},
@@ -722,7 +726,7 @@ TowerDefense.models.Game = function() {
                 'sell': {
                     img: TowerDefense.assets['coin'],
                     size: {mean: 7, stddev: 1},
-                    speed: {mean: 15, stddev: 5},
+                    speed: {mean: 15 / 1000, stddev: 5 / 1000},
                     quantity: 10,
                     rotationToSpeed: 1 / 50,
                     lifetime: {mean: 1000, stddev: 100},
@@ -731,7 +735,7 @@ TowerDefense.models.Game = function() {
                 'upgrade': {
                     img: TowerDefense.assets['plus'],
                     size: {mean: 7, stddev: 1},
-                    speed: {mean: 15, stddev: 5},
+                    speed: {mean: 15 / 1000, stddev: 5 / 1000},
                     quantity: 10,
                     rotationToSpeed: 1 / 50,
                     lifetime: {mean: 1000, stddev: 100},

@@ -53,7 +53,7 @@ TowerDefense.systems.Collision = function(particleSystem) {
     projPos.x += projComp.targetVec.unitVec.x * projComp.speed * elapsedTime;
     projPos.y += projComp.targetVec.unitVec.y * projComp.speed * elapsedTime;
 
-    if (projComp.type === 'boomerang') {
+    if (projComp.type === 'boomerang' || projComp.type === 'bomb') {
       projPos.rotation += elapsedTime * projComp.speed;
     }
 
@@ -96,8 +96,6 @@ TowerDefense.systems.Collision = function(particleSystem) {
           }
         }
       }
-
-
 
       report(projectileEntity);
     }

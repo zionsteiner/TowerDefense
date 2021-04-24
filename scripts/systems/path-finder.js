@@ -22,6 +22,11 @@ TowerDefense.systems.Pathfinder = function(spec) {
 
         for (let y = 0; y < grid.grid.length; ++y) {
             for (let x = 0; x < grid.grid[y].length; ++x) {
+                // Reset canPlace (ToDo: fix bug where creeps move over cells and do not reset canPlace)
+                if (x !== 0 && y !== 0 && x !== (grid.grid[y].length - 1) && y !== (grid.grid.length - 1)) {
+                    grid.grid[y][x].canPlace = true;
+                }
+
                 if (grid.grid[y][x]['obstructed'] || !grid.grid[y][x].canPlace) {
                     grid.grid[y][x].canPlace = false;
                 } else {
@@ -85,13 +90,13 @@ TowerDefense.systems.Pathfinder = function(spec) {
             }
 
             // ToDo: potential bugs with multiple creeps
-            // ToDo: snap to grid cell center
-            // ToDo: totally forgot why this works. if its after movement logic some creeps lose the path and go off screen
             /* Trade off: tolerance too high, creep positions get offcenter from grid track, worse with each turn
             *  tolerance too low, creeps moving too fast fall off track */
             if (pathbound.type === 'ground') {
                 if (testTolerance(pos.x, currLoc.canvas.x, 3) && testTolerance(pos.y, currLoc.canvas.y, 3)) {
-                    pathbound.currCell.canPlace = true;
+                    if (pathbound.currCell.x !== 0 && pathbound.currCell.y !== 0 && pathbound.currCell.x !== (grid.grid[pathbound.currCell.y].length - 1) && pathbound.currCell.y !== (grid.grid.length - 1)) {
+                        pathbound.currCell.canPlace = true;
+                    }
                     pathbound.currCell = grid.grid[currLoc.grid.y][currLoc.grid.x];
                     pathbound.currCell.canPlace = false;
 
@@ -104,14 +109,12 @@ TowerDefense.systems.Pathfinder = function(spec) {
                         pathbound.destCell = pathbound.currCell.next;
                         pathbound.destCell.canPlace = false;
                     } else {
-                        reportEntity(entity);   // bug handler
+                        reportExit(entity);   // bug handler
                         continue;
                     }
                 }
             } else if (pathbound.type === 'air') {
-                pathbound.currCell.canPlace = true;
                 pathbound.currCell = grid.grid[currLoc.grid.y][currLoc.grid.x];
-                pathbound.currCell.canPlace = false;
 
                 if (pathbound.currCell === grid.exit) {
                     reportExit(entity);
